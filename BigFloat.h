@@ -24,5 +24,8 @@ public:
 
 };
 
+std::ostream& operator<<(std::ostream& os, const BigFloat &num);
+
+BigFloat operator"" _bf(const char *str);
 
 #endif //HSE_PROJECT_BIGFLOAT_BIGFLOAT_H

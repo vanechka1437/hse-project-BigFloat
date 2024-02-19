@@ -56,3 +56,15 @@ int BigFloat::precision() const{
 std::string BigFloat::value() const {
     return _value;
 }
+
+std::ostream& operator<<(std::ostream& os, const BigFloat &num) {
+    os << (num.positive() ? "" : "-") << num.value().substr(0, num.value().size() - num.precision()) << "." << num.value().substr(num.value().size() - num.precision());
+    return os;
+}
+
+BigFloat operator"" _bf(const char *str) {
+    if (str == nullptr) {
+        return BigFloat{};
+    }
+    return BigFloat{std::string(str)};
+}
