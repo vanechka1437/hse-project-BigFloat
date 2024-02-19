@@ -24,6 +24,7 @@ private:
     std::string _value;
 
     [[nodiscard]] BigFloat sum(const BigFloat &other) const;
+    [[nodiscard]] BigFloat subtraction(const BigFloat &other) const;
 };
 
 std::ostream& operator<<(std::ostream& os, const BigFloat &num);

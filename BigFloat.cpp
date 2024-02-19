@@ -97,3 +97,42 @@ BigFloat BigFloat::sum(const BigFloat &other) const {
     }
     return result;
 }
+
+// if first and second are positive and first > second
+BigFloat BigFloat::subtraction(const BigFloat &other) const {
+    BigFloat result;
+    BigFloat num1(*this);
+    BigFloat num2(other);
+    result._precision = std::max(num1._precision,num2._precision);
+    // create uniform precision
+    num1._value += std::string(result._precision-num1._precision,'0');
+    num2._value += std::string(result._precision-num2._precision,'0');
+    // create uniform integer part
+    size_t size = std::max(num1._value.size(),num2._value.size());
+    num1._value = std::string(size-num1._value.size(),'0') + num1._value;
+    num2._value = std::string(size-num2._value.size(),'0') + num2._value;
+    // element-wise subtraction
+    result._value = std::string(num1._value.size(),'0');
+    int overflow = 0;
+    for (size_t i = result._value.size(); i >= 1; --i) {
+        int digits_sum = (num1._value[i-1] - '0') - (num2._value[i-1] - '0') + overflow;
+        if (digits_sum < 0) {
+            overflow = -1;
+            digits_sum += 10;
+        } else {
+            overflow = 0;
+        }
+        result._value[i-1] = static_cast<char>(digits_sum + '0');
+    }
+    size_t position = result._value.find_first_not_of('0');
+    if (position == std::string::npos){
+        result._value = std::string(result._precision+1,'0');
+        return result;
+    }
+    if (position < result._value.size() - result._precision) {
+        result._value = result._value.substr(position);
+    } else {
+        result._value = "0" + result._value.substr(result._value.size()-result._precision);
+    }
+    return result;
+}
