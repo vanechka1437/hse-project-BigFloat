@@ -136,3 +136,20 @@ BigFloat BigFloat::subtraction(const BigFloat &other) const {
     }
     return result;
 }
+
+bool BigFloat::operator==(const BigFloat &other) const{
+    if (this->_is_positive != other._is_positive) {
+        return false;
+    }
+    BigFloat num1(*this);
+    BigFloat num2(other);
+    size_t size = std::max(num1._precision,num2._precision);
+    num1._value += std::string(size-num1._precision,'0');
+    num2._value += std::string(size-num2._precision,'0');
+    return num1._value == num2._value;
+}
+
+bool BigFloat::operator!=(const BigFloat &other) const {
+    return !(*this == other);
+}
+
