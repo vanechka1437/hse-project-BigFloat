@@ -45,3 +45,14 @@ BigFloat::BigFloat(const std::string &str, int precision) {
     }
 }
 
+bool BigFloat::positive() const {
+    return _is_positive;
+}
+
+int BigFloat::precision() const{
+    return _precision;
+}
+
+std::string BigFloat::value() const {
+    return _value;
+}

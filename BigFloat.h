@@ -18,6 +18,10 @@ public:
 
     BigFloat& operator=(const BigFloat &other) = default;
 
+    [[nodiscard]] bool positive() const;
+    [[nodiscard]] int precision() const;
+    [[nodiscard]] std::string value() const;
+
 };
 
 
