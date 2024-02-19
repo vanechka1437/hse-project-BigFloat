@@ -5,10 +5,6 @@
 #include <string>
 
 class BigFloat {
-private:
-    bool _is_positive;
-    int _precision;
-    std::string _value;
 public:
     BigFloat();
     BigFloat(const std::string &str, int precision = 10);
@@ -22,6 +18,12 @@ public:
     [[nodiscard]] int precision() const;
     [[nodiscard]] std::string value() const;
 
+private:
+    bool _is_positive;
+    int _precision;
+    std::string _value;
+
+    [[nodiscard]] BigFloat sum(const BigFloat &other) const;
 };
 
 std::ostream& operator<<(std::ostream& os, const BigFloat &num);

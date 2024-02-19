@@ -68,3 +68,32 @@ BigFloat operator"" _bf(const char *str) {
     }
     return BigFloat{std::string(str)};
 }
+
+// if first and second are positive
+BigFloat BigFloat::sum(const BigFloat &other) const {
+
+    BigFloat result;
+    BigFloat num1(*this);
+    BigFloat num2(other);
+
+    result._precision = std::max(num1._precision,num2._precision);
+    // create uniform precision
+    num1._value += std::string(result._precision-num1._precision,'0');
+    num2._value += std::string(result._precision-num2._precision,'0');
+    // create uniform integer part
+    size_t size = std::max(num1._value.size(),num2._value.size());
+    num1._value = std::string(size-num1._value.size(),'0') + num1._value;
+    num2._value = std::string(size-num2._value.size(),'0') + num2._value;
+    // element-wise sum
+    result._value = std::string(num1._value.size(),'0');
+    int overflow = 0;
+    for (size_t i = result._value.size(); i >= 1; --i){
+        int digits_sum = (num1._value[i-1] - '0') + (num2._value[i-1] - '0') + overflow;
+        result._value[i-1] = static_cast<char>(digits_sum%10 + '0');
+        overflow = digits_sum/10;
+    }
+    if (overflow > 0) {
+        result._value = "1" + result._value;
+    }
+    return result;
+}
