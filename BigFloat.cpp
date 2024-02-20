@@ -254,5 +254,29 @@ BigFloat BigFloat::mini_multiplication(const char &digit) const {
     return result;
 }
 
+BigFloat BigFloat::operator*(const BigFloat &other) const {
+    BigFloat num1(*this);
+    BigFloat num2(other);
+    BigFloat result;
+
+    if ((num1._is_positive && !num2._is_positive) || (!num1._is_positive && num2._is_positive)) {
+        result._is_positive = false;
+    }
+    num1._is_positive = true;
+    num2._is_positive = true;
+
+    int digit = 0;
+    for (size_t i = num2._value.size(); i >= 1; --i) {
+        BigFloat sum = num1.mini_multiplication(num2._value[i-1]);
+        sum._value += std::string(digit,'0');
+        result = result + sum;
+        digit++;
+    }
+    result._precision = num1._precision + num2._precision;
+    return result;
+}
+
+
+
 
 
