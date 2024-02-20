@@ -30,6 +30,7 @@ public:
     BigFloat operator-(const BigFloat &other) const;
     BigFloat operator*(const BigFloat &other) const;
 
+    void reduce_precision(int precision);
 
 private:
     bool _is_positive;

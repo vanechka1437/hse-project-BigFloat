@@ -276,7 +276,10 @@ BigFloat BigFloat::operator*(const BigFloat &other) const {
     return result;
 }
 
-
+void BigFloat::reduce_precision(int precision) {
+    this->_value = this->_value.substr(0,_value.size() - _precision + precision);
+    this->_precision = precision;
+}
 
 
 
