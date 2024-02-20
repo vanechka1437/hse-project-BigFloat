@@ -237,3 +237,14 @@ TEST(Long_precision, divide_long_precision){
 
     ASSERT_EQ(num1/num2,ans);
 }
+
+TEST(Methods, to_string){
+    BigFloat num("-12356.64364363647",11);
+    ASSERT_EQ("-12356.64364363647",num.to_string());
+}
+
+TEST(Operators, user_defined_literal){
+    BigFloat num("-1234.56789");
+    BigFloat num2 = -1234.56789_bf;
+    ASSERT_EQ(num,num2);
+}

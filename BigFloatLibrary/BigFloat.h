@@ -33,6 +33,8 @@ public:
 
     void reduce_precision(int precision);
 
+    std::string to_string() const;
+
 private:
     bool _is_positive;
     int _precision;

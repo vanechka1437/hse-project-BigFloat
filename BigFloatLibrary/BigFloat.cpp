@@ -402,3 +402,7 @@ BigFloat BigFloat::operator/(const BigFloat &other) const {
     return result;
 }
 
+std::string BigFloat::to_string() const {
+    return ((this->_is_positive ? "" : "-") + this->_value.substr(0, this->_value.size() - this->_precision) + "." + this->_value.substr(this->_value.size() - this->_precision));
+}
+
