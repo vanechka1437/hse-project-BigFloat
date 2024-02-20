@@ -232,5 +232,27 @@ BigFloat BigFloat::operator-(const BigFloat &other) const {
     return (*this + (-other));
 }
 
+// if all are positive
+BigFloat BigFloat::mini_multiplication(const char &digit) const {
+    BigFloat result;
+    if (digit == '0') {
+        return result;
+    }
+    int d = digit - '0';
+    result._is_positive = true;
+    result._precision = this->_precision;
+    result._value = std::string(this->_value.size(),'0');
+    int overflow = 0;
+    for (size_t i = result._value.size(); i >= 1; --i) {
+        int sum = d * (this->_value[i-1] - '0') + overflow;
+        result._value[i-1] = static_cast<char>(sum%10 + '0');
+        overflow = sum/10;
+    }
+    if (overflow > 0) {
+        result._value = std::string(1,overflow + '0') + result._value;
+    }
+    return result;
+}
+
 
 
