@@ -319,5 +319,107 @@ std::string BigFloat::subtract(const std::string &first, const std::string &seco
     return result;
 }
 
+BigFloat BigFloat::operator/(const BigFloat &other) const {
+    if (other == BigFloat("0")) {
+        return BigFloat("0");
+    }
+
+    BigFloat result;
+
+    if ((this->_is_positive && !other._is_positive) || (!this->_is_positive && other._is_positive)) {
+        result._is_positive = false;
+    }
+
+    result._precision = this->_precision + other._precision;
+
+    std::string num1 = this->_value;
+    std::string num2 = other._value;
+    std::string del = "";
+    std::string res = "";
+
+    num1 += std::string(std::max(this->precision(),other._precision),'0');
+    num2 += std::string(std::max(this->precision(),other._precision),'0');
+
+//    int k = 0;
+//    int new_precision1 = 0;
+//    int new_precision2 = 0;
+
+    size_t pos1 = num1.find_first_not_of('0');
+    size_t pos2 = num1.find_last_not_of('0');
+    size_t border1 = num1.size() - this->_precision - 1;
+    if (pos1 <= border1 && pos2 > border1) {
+        num1 = num1.substr(pos1,pos2-pos1+1);
+//        new_precision1 = pos2 - border1;
+    } else if (pos1 > border1 && pos2 > border1) {
+        num1 = "0" + num1.substr(border1+1, pos2 - border1);
+//        new_precision1 = pos2 - border1;
+    } else {
+        num1 = num1.substr(pos1, border1 - pos1 + 1);
+//        new_precision1 = 0;
+    }
+
+    size_t pos3 = num2.find_first_not_of('0');
+    size_t pos4 = num2.find_last_not_of('0');
+    size_t border2 = num2.size() - other._precision - 1;
+    if (pos3 <= border2 && pos4 > border2) {
+        num2 = num2.substr(pos3,pos4-pos3+1);
+//        new_precision2 = pos4 - border2;
+    } else if (pos3 > border2 && pos4 > border2) {
+        num2 = "0" + num2.substr(border2+1, pos4 - border2);
+//        new_precision2 = pos4 - border2;
+    } else {
+        num2 = num2.substr(pos3, border2 - pos3 + 1);
+//        new_precision2 = 0;
+    }
+
+//    size_t size = std::max(num1.size(),num2.size());
+//    num1 += std::string(size - num1.size(),'0');
+//    num2 += std::string(size - num2.size(),'0');
+
+//    std::cout << "num1 = " << num1 << std::endl;
+//    std::cout << "num2 = " << num2 << std::endl;
+
+    for (size_t i = 0; i < num1.size(); i++) {
+        del += num1[i];
+//        std::cout << "del = " << del <<std::endl;
+        if (less(num2, del)) {
+            int x = 0;
+            while (less(num2,del)) {
+                del = subtract(del,num2);
+                x++;
+            }
+            res += std::to_string(x);
+        }
+    }
+
+    if (res.empty()) {
+        res = "0";
+    }
+
+    for (int i = 0; i < result._precision; i++) {
+        del += "0";
+//        std::cout << "res = " << res << std::endl;
+        if (less(num2,del)) {
+            int x = 0;
+            while (less(num2, del)) {
+                del = subtract(del,num2);
+                x++;
+            }
+            res += std::to_string(x);
+        } else {
+            res += "0";
+        }
+    }
+
+//    if (new_precision2 > new_precision1) {
+//        res += std::string(new_precision2-new_precision1,'0');
+//    } else if (new_precision2 < new_precision1) {
+//        res = res.substr(0,res.size()+new_precision2-new_precision1);
+//    }
+
+    result._value = res;
+    return result;
+}
+
 
 

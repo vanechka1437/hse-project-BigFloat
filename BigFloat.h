@@ -29,6 +29,7 @@ public:
     BigFloat operator+(const BigFloat &other) const;
     BigFloat operator-(const BigFloat &other) const;
     BigFloat operator*(const BigFloat &other) const;
+    BigFloat operator/(const BigFloat &other) const;
 
     void reduce_precision(int precision);
 
