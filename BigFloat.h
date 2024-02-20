@@ -27,6 +27,8 @@ public:
 
     BigFloat operator-() const;
     BigFloat operator+(const BigFloat &other) const;
+    BigFloat operator-(const BigFloat &other) const;
+
 
 private:
     bool _is_positive;

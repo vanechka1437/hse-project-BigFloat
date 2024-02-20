@@ -228,3 +228,9 @@ BigFloat BigFloat::operator-() const {
     return result;
 }
 
+BigFloat BigFloat::operator-(const BigFloat &other) const {
+    return (*this + (-other));
+}
+
+
+
