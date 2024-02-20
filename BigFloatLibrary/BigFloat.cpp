@@ -259,9 +259,6 @@ BigFloat BigFloat::operator*(const BigFloat &other) const {
     BigFloat num2(other);
     BigFloat result;
 
-    if ((num1._is_positive && !num2._is_positive) || (!num1._is_positive && num2._is_positive)) {
-        result._is_positive = false;
-    }
     num1._is_positive = true;
     num2._is_positive = true;
 
@@ -273,6 +270,13 @@ BigFloat BigFloat::operator*(const BigFloat &other) const {
         digit++;
     }
     result._precision = num1._precision + num2._precision;
+
+    if ((this->_is_positive && !other._is_positive) || (!this->_is_positive && other._is_positive)) {
+        if (result._value.find_first_not_of('0') != std::string::npos){
+            result._is_positive = false;
+        }
+    }
+
     return result;
 }
 
@@ -325,10 +329,6 @@ BigFloat BigFloat::operator/(const BigFloat &other) const {
     }
 
     BigFloat result;
-
-    if ((this->_is_positive && !other._is_positive) || (!this->_is_positive && other._is_positive)) {
-        result._is_positive = false;
-    }
 
     result._precision = this->_precision + other._precision;
 
@@ -392,6 +392,13 @@ BigFloat BigFloat::operator/(const BigFloat &other) const {
         }
     }
     result._value = res;
+
+    if ((this->_is_positive && !other._is_positive) || (!this->_is_positive && other._is_positive)) {
+        if(result._value.find_first_not_of('0') != std::string::npos){
+            result._is_positive = false;
+        }
+    }
+
     return result;
 }
 

@@ -7,7 +7,7 @@
 class BigFloat {
 public:
     BigFloat();
-    BigFloat(const std::string &str, int precision = 10);
+    explicit BigFloat(const std::string &str, int precision = 10);
 
     ~BigFloat() = default;
     BigFloat(const BigFloat &other) = default;
