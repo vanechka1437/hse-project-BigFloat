@@ -40,6 +40,8 @@ private:
     [[nodiscard]] BigFloat sum(const BigFloat &other) const;
     [[nodiscard]] BigFloat subtraction(const BigFloat &other) const;
     [[nodiscard]] BigFloat mini_multiplication(const char &digit) const;
+    static bool less(const std::string &first, const std::string &second);
+    static std::string subtract(const std::string &first, const std::string &second);
 };
 
 std::ostream& operator<<(std::ostream& os, const BigFloat &num);

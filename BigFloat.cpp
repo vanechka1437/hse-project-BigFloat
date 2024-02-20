@@ -281,5 +281,43 @@ void BigFloat::reduce_precision(int precision) {
     this->_precision = precision;
 }
 
+// without null
+bool BigFloat::less(const std::string &first, const std::string &second) {
+    size_t pos1 = first.find_first_not_of('0');
+    if (pos1 == std::string::npos) {
+        return true;
+    }
+    size_t pos2 = second.find_first_not_of('0');
+    if (pos2 == std::string::npos) {
+        return false;
+    }
+    if (first.size()-pos1 != second.size()-pos2) {
+        return first.size()-pos1 < second.size()-pos2;
+    }
+    return first.substr(pos1) <= second.substr(pos2);
+}
+
+std::string BigFloat::subtract(const std::string &first, const std::string &second) {
+    std::string result(first.size(),'0');
+    std::string num = std::string(first.size()-second.size(),'0') + second;
+    int overflow = 0;
+    for (size_t i = first.size(); i >= 1; --i) {
+        int sum = (first[i-1] - '0') - (num[i-1] - '0') + overflow;
+        if (sum < 0) {
+            sum += 10;
+            overflow = -1;
+        } else {
+            overflow = 0;
+        }
+        result[i-1] = static_cast<char>(sum + '0');
+    }
+    size_t position = result.find_first_not_of('0');
+    if (position == std::string::npos){
+        return "0";
+    }
+    result = result.substr(position);
+    return result;
+}
+
 
 
