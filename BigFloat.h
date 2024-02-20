@@ -25,6 +25,9 @@ public:
     bool operator<(const BigFloat &other) const;
     bool operator>(const BigFloat &other) const;
 
+    BigFloat operator-() const;
+    BigFloat operator+(const BigFloat &other) const;
+
 private:
     bool _is_positive;
     int _precision;

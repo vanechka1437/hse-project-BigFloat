@@ -189,3 +189,42 @@ bool BigFloat::operator>=(const BigFloat &other) const {
     return !(*this < other);
 }
 
+BigFloat BigFloat::operator+(const BigFloat &other) const {
+    if (this->_is_positive && other._is_positive){
+        return this->sum(other);
+    }
+    if (!this->_is_positive && !other._is_positive) {
+        BigFloat result = this->sum(other);
+        result._is_positive = false;
+        return result;
+    }
+    BigFloat num1(*this);
+    BigFloat num2(other);
+    if (num1._is_positive) {
+        num2._is_positive = true;
+        if (num1 < num2) {
+            BigFloat result = num2.subtraction(num1);
+            result._is_positive = false;
+            return result;
+        }
+        return num1.subtraction(num2);
+    }
+    num1._is_positive = true;
+    if (num2 < num1) {
+        BigFloat result = num1.subtraction(num2);
+        result._is_positive = false;
+        return result;
+    }
+    return num2.subtraction(num1);
+}
+
+BigFloat BigFloat::operator-() const {
+    BigFloat null("0");
+    BigFloat result(*this);
+    if (*this == null) {
+        return result;
+    }
+    result._is_positive = false;
+    return result;
+}
+
